@@ -17,7 +17,7 @@ namespace proyecto_sistetmas.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await dataContext.Products.ToListAsync());
+            return Ok(await dataContext.Products.Include(c => c.Brand).Include(p => p.Category).ToListAsync());
 
         }
 

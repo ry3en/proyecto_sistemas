@@ -15,5 +15,6 @@ namespace proyecto_sistemas.Shared.Entities
         [Display(Name = "Category")]
         public string Name { get; set; }
 
+
     }
 }

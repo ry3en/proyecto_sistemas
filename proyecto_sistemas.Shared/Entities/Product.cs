@@ -22,18 +22,31 @@ namespace proyecto_sistemas.Shared.Entities
 
         [Required]
         [MaxLength(100, ErrorMessage = "El campo no {0} debe tener maximo {1} caracteres")]
+        [Display(Name = "Color")]
+        public string Color { get; set; }
+
+        [Required]
         [Display(Name = "Brand")]
-        public int Brand { get; set; }
+        public Brand Brand { get; set; }
+
+
+        [Required]
+        [Display(Name = "Quantity")]
+        public int Quantity { get; set; }
+
 
         [Required]
         [MaxLength(100, ErrorMessage = "El campo no {0} debe tener maximo {1} caracteres")]
         [Display(Name = "Category")]
-        public int Category { get; set; }
+        public Category Category { get; set; }
+
+        //public Category category { get; set; }
 
         [Required]
         [MaxLength(100, ErrorMessage = "El campo no {0} debe tener maximo {1} caracteres")]
         [Display(Name = "Total")]
-        public double Total { get; set; }
+        public int Total { get; set; }
+
 
     }
 }

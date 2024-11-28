@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using proyecto_sistetmas.API;
 
@@ -10,9 +11,11 @@ using proyecto_sistetmas.API;
 namespace proyecto_sistetmas.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241128033809_AddColor")]
+    partial class AddColor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +85,7 @@ namespace proyecto_sistetmas.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Orders");
@@ -126,6 +129,7 @@ namespace proyecto_sistetmas.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
+                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Color")
@@ -138,17 +142,14 @@ namespace proyecto_sistetmas.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Size")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Total")
+                    b.Property<double>("Total")
                         .HasMaxLength(100)
-                        .HasColumnType("int");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -171,7 +172,7 @@ namespace proyecto_sistetmas.API.Migrations
                         .IsRequired();
 
                     b.HasOne("proyecto_sistemas.Shared.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -183,24 +184,35 @@ namespace proyecto_sistetmas.API.Migrations
 
             modelBuilder.Entity("proyecto_sistemas.Shared.Entities.Product", b =>
                 {
-                    b.HasOne("proyecto_sistemas.Shared.Entities.Brand", "Brand")
-                        .WithMany()
+                    b.HasOne("proyecto_sistemas.Shared.Entities.Brand", null)
+                        .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("proyecto_sistemas.Shared.Entities.Category", "Category")
-                        .WithMany()
+                    b.HasOne("proyecto_sistemas.Shared.Entities.Category", null)
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Brand");
+            modelBuilder.Entity("proyecto_sistemas.Shared.Entities.Brand", b =>
+                {
+                    b.Navigation("Products");
+                });
 
-                    b.Navigation("Category");
+            modelBuilder.Entity("proyecto_sistemas.Shared.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("proyecto_sistemas.Shared.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("proyecto_sistemas.Shared.Entities.Product", b =>
                 {
                     b.Navigation("OrderItems");
                 });

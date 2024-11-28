@@ -8,7 +8,7 @@ namespace proyecto_sistetmas.API
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Order> Orders { get; set; }
-
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DataContext(DbContextOptions<DataContext> dbContext): base(dbContext) 
         {
         }
@@ -19,6 +19,7 @@ namespace proyecto_sistetmas.API
             modelBuilder.Entity<Product>().HasIndex( x => x.Id).IsUnique();
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Brand>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Order>().HasIndex(c => c.Id).IsUnique();
 
         }
 

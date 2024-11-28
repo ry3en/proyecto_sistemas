@@ -16,8 +16,10 @@ namespace proyecto_sistetmas.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=con"));
+            builder.Services.AddTransient<Seeder>();
 
             var app = builder.Build();
+            SeedApp(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -34,6 +36,17 @@ namespace proyecto_sistetmas.API
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void SeedApp(WebApplication app)
+        {
+            IServiceScopeFactory? serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+            using (IServiceScope? serviceScope = serviceScopeFactory.CreateScope())
+            {
+                Seeder? seeder = serviceScope.ServiceProvider.GetService<Seeder>();
+                seeder!.SeedAsync().Wait();
+
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace proyecto_sistemas.Shared.Entities
     public class Order
     {
         public int Id { get; set; }
+
         [Required]
         [MaxLength(100, ErrorMessage = "El campo no {0} debe tener maximo {1} caracteres")]
         [Display(Name = "Order")]
@@ -20,5 +21,8 @@ namespace proyecto_sistemas.Shared.Entities
         [Display(Name = "Total")]
         public int Total { get; set; }
 
+        // Relación muchos a muchos con Product a través de OrderItem
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
+
 }
